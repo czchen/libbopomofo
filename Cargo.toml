@@ -1,0 +1,10 @@
+[package]
+name = "bopomofo"
+version = "0.1.0"
+authors = [
+    "ChangZhuo Chen (陳昌倬) <czchen@czchen.org>"
+]
+
+[lib]
+name = "bopomofo"
+crate-type = ["dylib"]
