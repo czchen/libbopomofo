@@ -62,4 +62,4 @@ const BOPOMOFO_IU: u16 = 0x0100; // ㄩ
 const BOPOMOFO_LIGHT_TONE: u16  = 0x0001; // ˙
 const BOPOMOFO_SECOND_TONE: u16 = 0x0002; // ˊ
 const BOPOMOFO_THIRD_TONE: u16  = 0x0003; // ˇ
-const BOPOMOFO_FOURTH_TONE: u16 = 0x0004; // ˇ
+const BOPOMOFO_FOURTH_TONE: u16 = 0x0004; // ˋ
