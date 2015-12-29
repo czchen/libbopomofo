@@ -11,7 +11,7 @@ enum Bopomofo {
 }
 
 impl Bopomofo {
-    fn get_bopomofo(&self) -> Phone {
+    fn get_phone(&self) -> Phone {
         match self {
             &Bopomofo::Consonant(x) => x,
             &Bopomofo::Medial(x) => x,
@@ -23,13 +23,13 @@ impl Bopomofo {
 
 impl cmp::PartialEq for Bopomofo {
     fn eq(&self, rhs: &Bopomofo) -> bool {
-        self.get_bopomofo() == rhs.get_bopomofo()
+        self.get_phone() == rhs.get_phone()
     }
 }
 
 impl fmt::Debug for Bopomofo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Bopomofo({})", self.get_bopomofo())
+        write!(f, "Bopomofo({})", self.get_phone())
     }
 }
 
@@ -119,7 +119,7 @@ fn merge_bopomofo_to_phone(phone: Phone, bopomofo: &Bopomofo) -> Phone {
         &Bopomofo::Tone(_) => BOPOMOFO_TONE_MASK,
     };
 
-    phone & !mask | bopomofo.get_bopomofo()
+    phone & !mask | bopomofo.get_phone()
 }
 
 #[test]
