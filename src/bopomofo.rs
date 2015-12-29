@@ -1,17 +1,17 @@
 use std::cmp;
 use std::fmt;
 
-type phone = u16;
+type Phone = u16;
 
 enum Bopomofo {
-    Consonant(phone),
-    Medial(phone),
-    Rhyme(phone),
-    Tone(phone),
+    Consonant(Phone),
+    Medial(Phone),
+    Rhyme(Phone),
+    Tone(Phone),
 }
 
 impl Bopomofo {
-    fn get_bopomofo(&self) -> phone {
+    fn get_bopomofo(&self) -> Phone {
         match self {
             &Bopomofo::Consonant(x) => x,
             &Bopomofo::Medial(x) => x,
@@ -43,61 +43,61 @@ const BOPOMOFO_MEDIAL_SHIFT: usize    = 6;
 const BOPOMOFO_RHYME_SHIFT: usize     = 3;
 const BOPOMOFO_TONE_SHIFT: usize      = 0;
 
-const BOPOMOFO_B: phone  = 0x0001 << BOPOMOFO_CONSONANT_SHIFT; // ㄅ
-const BOPOMOFO_P: phone  = 0x0002 << BOPOMOFO_CONSONANT_SHIFT; // ㄆ
-const BOPOMOFO_M: phone  = 0x0003 << BOPOMOFO_CONSONANT_SHIFT; // ㄇ
-const BOPOMOFO_F: phone  = 0x0004 << BOPOMOFO_CONSONANT_SHIFT; // ㄈ
-const BOPOMOFO_D: phone  = 0x0005 << BOPOMOFO_CONSONANT_SHIFT; // ㄉ
-const BOPOMOFO_T: phone  = 0x0006 << BOPOMOFO_CONSONANT_SHIFT; // ㄊ
-const BOPOMOFO_N: phone  = 0x0007 << BOPOMOFO_CONSONANT_SHIFT; // ㄋ
-const BOPOMOFO_L: phone  = 0x0008 << BOPOMOFO_CONSONANT_SHIFT; // ㄌ
-const BOPOMOFO_G: phone  = 0x0009 << BOPOMOFO_CONSONANT_SHIFT; // ㄍ
-const BOPOMOFO_K: phone  = 0x000a << BOPOMOFO_CONSONANT_SHIFT; // ㄎ
-const BOPOMOFO_H: phone  = 0x000b << BOPOMOFO_CONSONANT_SHIFT; // ㄏ
-const BOPOMOFO_J: phone  = 0x000c << BOPOMOFO_CONSONANT_SHIFT; // ㄐ
-const BOPOMOFO_Q: phone  = 0x000d << BOPOMOFO_CONSONANT_SHIFT; // ㄑ
-const BOPOMOFO_X: phone  = 0x000e << BOPOMOFO_CONSONANT_SHIFT; // ㄒ
-const BOPOMOFO_ZH: phone = 0x000f << BOPOMOFO_CONSONANT_SHIFT; // ㄓ
-const BOPOMOFO_CH: phone = 0x0010 << BOPOMOFO_CONSONANT_SHIFT; // ㄔ
-const BOPOMOFO_SH: phone = 0x0011 << BOPOMOFO_CONSONANT_SHIFT; // ㄕ
-const BOPOMOFO_R: phone  = 0x0012 << BOPOMOFO_CONSONANT_SHIFT; // ㄖ
-const BOPOMOFO_Z: phone  = 0x0013 << BOPOMOFO_CONSONANT_SHIFT; // ㄗ
-const BOPOMOFO_C: phone  = 0x0014 << BOPOMOFO_CONSONANT_SHIFT; // ㄘ
-const BOPOMOFO_S: phone  = 0x0015 << BOPOMOFO_CONSONANT_SHIFT; // ㄙ
+const BOPOMOFO_B: Phone  = 0x0001 << BOPOMOFO_CONSONANT_SHIFT; // ㄅ
+const BOPOMOFO_P: Phone  = 0x0002 << BOPOMOFO_CONSONANT_SHIFT; // ㄆ
+const BOPOMOFO_M: Phone  = 0x0003 << BOPOMOFO_CONSONANT_SHIFT; // ㄇ
+const BOPOMOFO_F: Phone  = 0x0004 << BOPOMOFO_CONSONANT_SHIFT; // ㄈ
+const BOPOMOFO_D: Phone  = 0x0005 << BOPOMOFO_CONSONANT_SHIFT; // ㄉ
+const BOPOMOFO_T: Phone  = 0x0006 << BOPOMOFO_CONSONANT_SHIFT; // ㄊ
+const BOPOMOFO_N: Phone  = 0x0007 << BOPOMOFO_CONSONANT_SHIFT; // ㄋ
+const BOPOMOFO_L: Phone  = 0x0008 << BOPOMOFO_CONSONANT_SHIFT; // ㄌ
+const BOPOMOFO_G: Phone  = 0x0009 << BOPOMOFO_CONSONANT_SHIFT; // ㄍ
+const BOPOMOFO_K: Phone  = 0x000a << BOPOMOFO_CONSONANT_SHIFT; // ㄎ
+const BOPOMOFO_H: Phone  = 0x000b << BOPOMOFO_CONSONANT_SHIFT; // ㄏ
+const BOPOMOFO_J: Phone  = 0x000c << BOPOMOFO_CONSONANT_SHIFT; // ㄐ
+const BOPOMOFO_Q: Phone  = 0x000d << BOPOMOFO_CONSONANT_SHIFT; // ㄑ
+const BOPOMOFO_X: Phone  = 0x000e << BOPOMOFO_CONSONANT_SHIFT; // ㄒ
+const BOPOMOFO_ZH: Phone = 0x000f << BOPOMOFO_CONSONANT_SHIFT; // ㄓ
+const BOPOMOFO_CH: Phone = 0x0010 << BOPOMOFO_CONSONANT_SHIFT; // ㄔ
+const BOPOMOFO_SH: Phone = 0x0011 << BOPOMOFO_CONSONANT_SHIFT; // ㄕ
+const BOPOMOFO_R: Phone  = 0x0012 << BOPOMOFO_CONSONANT_SHIFT; // ㄖ
+const BOPOMOFO_Z: Phone  = 0x0013 << BOPOMOFO_CONSONANT_SHIFT; // ㄗ
+const BOPOMOFO_C: Phone  = 0x0014 << BOPOMOFO_CONSONANT_SHIFT; // ㄘ
+const BOPOMOFO_S: Phone  = 0x0015 << BOPOMOFO_CONSONANT_SHIFT; // ㄙ
 
-const BOPOMOFO_Y: phone   = 0x0001 << BOPOMOFO_RHYME_SHIFT; // ㄚ
-const BOPOMOFO_O: phone   = 0x0002 << BOPOMOFO_RHYME_SHIFT; // ㄛ
-const BOPOMOFO_E: phone   = 0x0003 << BOPOMOFO_RHYME_SHIFT; // ㄜ
-const BOPOMOFO_EH: phone  = 0x0004 << BOPOMOFO_RHYME_SHIFT; // ㄝ
-const BOPOMOFO_AI: phone  = 0x0005 << BOPOMOFO_RHYME_SHIFT; // ㄞ
-const BOPOMOFO_EI: phone  = 0x0006 << BOPOMOFO_RHYME_SHIFT; // ㄟ
-const BOPOMOFO_AU: phone  = 0x0007 << BOPOMOFO_RHYME_SHIFT; // ㄠ
-const BOPOMOFO_OU: phone  = 0x0008 << BOPOMOFO_RHYME_SHIFT; // ㄡ
-const BOPOMOFO_AN: phone  = 0x0009 << BOPOMOFO_RHYME_SHIFT; // ㄢ
-const BOPOMOFO_EN: phone  = 0x000a << BOPOMOFO_RHYME_SHIFT; // ㄣ
-const BOPOMOFO_ANG: phone = 0x000b << BOPOMOFO_RHYME_SHIFT; // ㄤ
-const BOPOMOFO_ENG: phone = 0x000c << BOPOMOFO_RHYME_SHIFT; // ㄥ
-const BOPOMOFO_ER: phone  = 0x000d << BOPOMOFO_RHYME_SHIFT; // ㄦ
+const BOPOMOFO_Y: Phone   = 0x0001 << BOPOMOFO_RHYME_SHIFT; // ㄚ
+const BOPOMOFO_O: Phone   = 0x0002 << BOPOMOFO_RHYME_SHIFT; // ㄛ
+const BOPOMOFO_E: Phone   = 0x0003 << BOPOMOFO_RHYME_SHIFT; // ㄜ
+const BOPOMOFO_EH: Phone  = 0x0004 << BOPOMOFO_RHYME_SHIFT; // ㄝ
+const BOPOMOFO_AI: Phone  = 0x0005 << BOPOMOFO_RHYME_SHIFT; // ㄞ
+const BOPOMOFO_EI: Phone  = 0x0006 << BOPOMOFO_RHYME_SHIFT; // ㄟ
+const BOPOMOFO_AU: Phone  = 0x0007 << BOPOMOFO_RHYME_SHIFT; // ㄠ
+const BOPOMOFO_OU: Phone  = 0x0008 << BOPOMOFO_RHYME_SHIFT; // ㄡ
+const BOPOMOFO_AN: Phone  = 0x0009 << BOPOMOFO_RHYME_SHIFT; // ㄢ
+const BOPOMOFO_EN: Phone  = 0x000a << BOPOMOFO_RHYME_SHIFT; // ㄣ
+const BOPOMOFO_ANG: Phone = 0x000b << BOPOMOFO_RHYME_SHIFT; // ㄤ
+const BOPOMOFO_ENG: Phone = 0x000c << BOPOMOFO_RHYME_SHIFT; // ㄥ
+const BOPOMOFO_ER: Phone  = 0x000d << BOPOMOFO_RHYME_SHIFT; // ㄦ
 
-const BOPOMOFO_I: phone  = 0x0001 << BOPOMOFO_MEDIAL_SHIFT; // ㄧ
-const BOPOMOFO_U: phone  = 0x0002 << BOPOMOFO_MEDIAL_SHIFT; // ㄨ
-const BOPOMOFO_IU: phone = 0x0003 << BOPOMOFO_MEDIAL_SHIFT; // ㄩ
+const BOPOMOFO_I: Phone  = 0x0001 << BOPOMOFO_MEDIAL_SHIFT; // ㄧ
+const BOPOMOFO_U: Phone  = 0x0002 << BOPOMOFO_MEDIAL_SHIFT; // ㄨ
+const BOPOMOFO_IU: Phone = 0x0003 << BOPOMOFO_MEDIAL_SHIFT; // ㄩ
 
-const BOPOMOFO_LIGHT_TONE: phone  = 0x0001 << BOPOMOFO_TONE_SHIFT; // ˙
-const BOPOMOFO_SECOND_TONE: phone = 0x0002 << BOPOMOFO_TONE_SHIFT; // ˊ
-const BOPOMOFO_THIRD_TONE: phone  = 0x0003 << BOPOMOFO_TONE_SHIFT; // ˇ
-const BOPOMOFO_FOURTH_TONE: phone = 0x0004 << BOPOMOFO_TONE_SHIFT; // ˋ
+const BOPOMOFO_LIGHT_TONE: Phone  = 0x0001 << BOPOMOFO_TONE_SHIFT; // ˙
+const BOPOMOFO_SECOND_TONE: Phone = 0x0002 << BOPOMOFO_TONE_SHIFT; // ˊ
+const BOPOMOFO_THIRD_TONE: Phone  = 0x0003 << BOPOMOFO_TONE_SHIFT; // ˇ
+const BOPOMOFO_FOURTH_TONE: Phone = 0x0004 << BOPOMOFO_TONE_SHIFT; // ˋ
 
 fn convert_to_bopomofo(ch: char) -> Option<Bopomofo> {
     if 'ㄅ' <= ch && ch <= 'ㄙ' {
-        Some(Bopomofo::Consonant((ch as phone - 'ㄅ' as phone + 1) << BOPOMOFO_CONSONANT_SHIFT))
+        Some(Bopomofo::Consonant((ch as Phone - 'ㄅ' as Phone + 1) << BOPOMOFO_CONSONANT_SHIFT))
 
     } else if 'ㄚ' <= ch && ch <= 'ㄦ' {
-        let diff = (ch as phone - 'ㄚ' as phone) << BOPOMOFO_RHYME_SHIFT;
+        let diff = (ch as Phone - 'ㄚ' as Phone) << BOPOMOFO_RHYME_SHIFT;
         Some(Bopomofo::Rhyme(BOPOMOFO_Y + diff))
 
     } else if 'ㄧ' <= ch && ch <= 'ㄩ' {
-        let diff = (ch as phone - 'ㄧ' as phone) << BOPOMOFO_MEDIAL_SHIFT;
+        let diff = (ch as Phone - 'ㄧ' as Phone) << BOPOMOFO_MEDIAL_SHIFT;
         Some(Bopomofo::Medial(BOPOMOFO_I + diff))
 
     } else {
