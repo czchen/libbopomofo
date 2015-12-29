@@ -63,3 +63,21 @@ const BOPOMOFO_LIGHT_TONE: u16  = 0x0001; // ˙
 const BOPOMOFO_SECOND_TONE: u16 = 0x0002; // ˊ
 const BOPOMOFO_THIRD_TONE: u16  = 0x0003; // ˇ
 const BOPOMOFO_FOURTH_TONE: u16 = 0x0004; // ˋ
+
+fn convert_to_bopomofo(ch: char) -> Option<Bopomofo> {
+    if 'ㄅ' <= ch && ch <= 'ㄙ' {
+        Some(Bopomofo::Consonant((ch as u16) - ('ㄅ' as u16) + BOPOMOFO_B))
+    } else if 'ㄚ' <= ch && ch <= 'ㄦ' {
+        Some(Bopomofo::Rhyme((ch as u16) - ('ㄚ' as u16) + BOPOMOFO_Y))
+    } else if 'ㄧ' <= ch && ch <= 'ㄩ' {
+        Some(Bopomofo::Medial((ch as u16) - ('ㄧ' as u16) + BOPOMOFO_I))
+    } else {
+        match ch {
+            '˙' => Some(Bopomofo::Tone(BOPOMOFO_LIGHT_TONE)),
+            'ˊ' => Some(Bopomofo::Tone(BOPOMOFO_SECOND_TONE)),
+            'ˇ' => Some(Bopomofo::Tone(BOPOMOFO_THIRD_TONE)),
+            'ˋ' => Some(Bopomofo::Tone(BOPOMOFO_FOURTH_TONE)),
+            _ => None,
+        }
+    }
+}
