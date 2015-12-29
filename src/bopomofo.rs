@@ -5,6 +5,17 @@ enum Bopomofo {
     Tone(u16),
 }
 
+impl Bopomofo {
+    fn getBopomofo(&self) -> u16 {
+        match self {
+            &Bopomofo::Consonant(x) => x,
+            &Bopomofo::Medial(x) => x,
+            &Bopomofo::Rhyme(x) => x,
+            &Bopomofo::Tone(x) => x,
+        }
+    }
+}
+
 const BOPOMOFO_CONSONANT_MASK: u16 = 0x1e00;
 const BOPOMOFO_MEDIAL_MASK: u16    = 0x0180;
 const BOPOMOFO_RHYME_MASK: u16     = 0x0078;
