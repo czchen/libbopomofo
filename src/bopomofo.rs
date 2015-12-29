@@ -9,7 +9,7 @@ enum Bopomofo {
 }
 
 impl Bopomofo {
-    fn getBopomofo(&self) -> u16 {
+    fn get_bopomofo(&self) -> u16 {
         match self {
             &Bopomofo::Consonant(x) => x,
             &Bopomofo::Medial(x) => x,
@@ -21,13 +21,13 @@ impl Bopomofo {
 
 impl cmp::PartialEq for Bopomofo {
     fn eq(&self, rhs: &Bopomofo) -> bool {
-        self.getBopomofo() == rhs.getBopomofo()
+        self.get_bopomofo() == rhs.get_bopomofo()
     }
 }
 
 impl fmt::Debug for Bopomofo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Bopomofo({})", self.getBopomofo())
+        write!(f, "Bopomofo({})", self.get_bopomofo())
     }
 }
 
