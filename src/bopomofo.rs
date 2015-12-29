@@ -29,7 +29,14 @@ impl cmp::PartialEq for Bopomofo {
 
 impl fmt::Debug for Bopomofo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Bopomofo({})", self.get_phone())
+        let t = match self {
+            &Bopomofo::Consonant(_) => "Consonant",
+            &Bopomofo::Medial(_) => "Medial",
+            &Bopomofo::Rhyme(_) => "Rhyme",
+            &Bopomofo::Tone(_) => "Tone",
+        };
+
+        write!(f, "{}({})", t, self.get_phone())
     }
 }
 
