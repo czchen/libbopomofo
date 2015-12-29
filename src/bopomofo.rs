@@ -100,12 +100,10 @@ fn convert_to_bopomofo(ch: char) -> Option<Bopomofo> {
         Some(Bopomofo::Consonant((ch as Phone - 'ㄅ' as Phone + 1) << BOPOMOFO_CONSONANT_SHIFT))
 
     } else if 'ㄚ' <= ch && ch <= 'ㄦ' {
-        let diff = (ch as Phone - 'ㄚ' as Phone) << BOPOMOFO_RHYME_SHIFT;
-        Some(Bopomofo::Rhyme(BOPOMOFO_Y + diff))
+        Some(Bopomofo::Rhyme((ch as Phone - 'ㄚ' as Phone + 1) << BOPOMOFO_RHYME_SHIFT))
 
     } else if 'ㄧ' <= ch && ch <= 'ㄩ' {
-        let diff = (ch as Phone - 'ㄧ' as Phone) << BOPOMOFO_MEDIAL_SHIFT;
-        Some(Bopomofo::Medial(BOPOMOFO_I + diff))
+        Some(Bopomofo::Medial((ch as Phone - 'ㄧ' as Phone + 1) << BOPOMOFO_MEDIAL_SHIFT))
 
     } else {
         match ch {
