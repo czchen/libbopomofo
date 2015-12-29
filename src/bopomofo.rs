@@ -14,7 +14,7 @@ const BOPOMOFO_CONSONANT_FIRST: char = 'ㄅ';
 const BOPOMOFO_CONSONANT_LAST: char = 'ㄙ';
 
 const BOPOMOFO_MEDIAL_FIRST: char = 'ㄧ';
-const BOPOMOFO_MEDIAL_LASt: char = 'ㄩ';
+const BOPOMOFO_MEDIAL_LAST: char = 'ㄩ';
 
 const BOPOMOFO_RHYME_FIRST: char = 'ㄚ';
 const BOPOMOFO_RHYME_LAST: char  = 'ㄦ';
