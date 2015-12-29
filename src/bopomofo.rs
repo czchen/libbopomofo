@@ -33,15 +33,15 @@ impl fmt::Debug for Bopomofo {
     }
 }
 
-// const BOPOMOFO_CONSONANT_MASK: u16 = 0x1e00;
-// const BOPOMOFO_MEDIAL_MASK: u16    = 0x0180;
-// const BOPOMOFO_RHYME_MASK: u16     = 0x0078;
-// const BOPOMOFO_TONE_MASK: u16      = 0x0007;
-
 const BOPOMOFO_CONSONANT_SHIFT: usize = 9;
 const BOPOMOFO_MEDIAL_SHIFT: usize    = 6;
 const BOPOMOFO_RHYME_SHIFT: usize     = 3;
 const BOPOMOFO_TONE_SHIFT: usize      = 0;
+
+const BOPOMOFO_CONSONANT_MASK: u16 = 0x001f << BOPOMOFO_CONSONANT_SHIFT;
+const BOPOMOFO_MEDIAL_MASK: u16    = 0x0003 << BOPOMOFO_MEDIAL_SHIFT;
+const BOPOMOFO_RHYME_MASK: u16     = 0x000f << BOPOMOFO_RHYME_SHIFT;
+const BOPOMOFO_TONE_MASK: u16      = 0x0007 << BOPOMOFO_TONE_SHIFT;
 
 const BOPOMOFO_B: Phone  = 0x0001 << BOPOMOFO_CONSONANT_SHIFT; // ㄅ
 const BOPOMOFO_P: Phone  = 0x0002 << BOPOMOFO_CONSONANT_SHIFT; // ㄆ
@@ -109,6 +109,17 @@ fn convert_to_bopomofo(ch: char) -> Option<Bopomofo> {
             _ => None,
         }
     }
+}
+
+fn merge_bopomofo_to_phone(phone: Phone, bopomofo: &Bopomofo) -> Phone {
+    let mask = match bopomofo {
+        &Bopomofo::Consonant(_) => BOPOMOFO_CONSONANT_MASK,
+        &Bopomofo::Medial(_) => BOPOMOFO_MEDIAL_MASK,
+        &Bopomofo::Rhyme(_) => BOPOMOFO_RHYME_MASK,
+        &Bopomofo::Tone(_) => BOPOMOFO_TONE_MASK,
+    };
+
+    phone & !mask | bopomofo.get_bopomofo()
 }
 
 #[test]
