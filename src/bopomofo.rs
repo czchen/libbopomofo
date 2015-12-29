@@ -1,3 +1,6 @@
+use std::cmp;
+use std::fmt;
+
 enum Bopomofo {
     Consonant(u16),
     Medial(u16),
@@ -13,6 +16,18 @@ impl Bopomofo {
             &Bopomofo::Rhyme(x) => x,
             &Bopomofo::Tone(x) => x,
         }
+    }
+}
+
+impl cmp::PartialEq for Bopomofo {
+    fn eq(&self, rhs: &Bopomofo) -> bool {
+        self.getBopomofo() == rhs.getBopomofo()
+    }
+}
+
+impl fmt::Debug for Bopomofo {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Bopomofo({})", self.getBopomofo())
     }
 }
 
@@ -91,4 +106,10 @@ fn convert_to_bopomofo(ch: char) -> Option<Bopomofo> {
             _ => None,
         }
     }
+}
+
+#[test]
+fn test_convert_to_bopomofo() {
+    assert_eq!(convert_to_bopomofo('ㄅ'), Some(Bopomofo::Consonant(BOPOMOFO_B)));
+    assert_eq!(convert_to_bopomofo('A'), None);
 }
