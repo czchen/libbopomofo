@@ -1,3 +1,4 @@
+use std::char;
 use std::cmp;
 use std::fmt;
 
@@ -125,6 +126,40 @@ pub fn merge_bopomofo_to_phone(phone: Phone, bopomofo: Bopomofo) -> Phone {
     };
 
     phone & !mask | bopomofo.get_phone()
+}
+
+pub fn convert_phone_to_string(phone: Phone) -> String {
+    let mut ret = String::with_capacity(4);
+
+    let consonant = phone & BOPOMOFO_CONSONANT_MASK;
+    let medial = phone & BOPOMOFO_MEDIAL_MASK;
+    let rhyme = phone & BOPOMOFO_RHYME_MASK;
+    let tone = phone & BOPOMOFO_TONE_MASK;
+
+    if tone == BOPOMOFO_LIGHT_TONE {
+        ret.push('˙')
+    }
+
+    if BOPOMOFO_B <= consonant && consonant <= BOPOMOFO_S {
+        ret.push(char::from_u32('ㄅ' as u32 + ((consonant - BOPOMOFO_B) >> BOPOMOFO_CONSONANT_SHIFT) as u32).unwrap())
+    }
+
+    if BOPOMOFO_I <= medial && medial <= BOPOMOFO_IU {
+        ret.push(char::from_u32('ㄧ' as u32 + ((medial - BOPOMOFO_I) >> BOPOMOFO_MEDIAL_SHIFT) as u32).unwrap())
+    }
+
+    if BOPOMOFO_Y <= rhyme && rhyme <= BOPOMOFO_ER {
+        ret.push(char::from_u32('ㄚ' as u32 + ((rhyme - BOPOMOFO_Y) >> BOPOMOFO_RHYME_SHIFT) as u32).unwrap())
+    }
+
+    match tone {
+        BOPOMOFO_SECOND_TONE => ret.push('ˊ'),
+        BOPOMOFO_THIRD_TONE => ret.push('ˇ'),
+        BOPOMOFO_FOURTH_TONE => ret.push('ˋ'),
+        _ => (),
+    }
+
+    ret
 }
 
 #[cfg(test)]
