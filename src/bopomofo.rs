@@ -255,4 +255,13 @@ mod tests {
         assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Tone(BOPOMOFO_THIRD_TONE)),
             BOPOMOFO_P | BOPOMOFO_O | BOPOMOFO_THIRD_TONE);
     }
+
+    #[test]
+    fn test_convert_phone_to_string() {
+        let phone = BOPOMOFO_B | BOPOMOFO_I | BOPOMOFO_AN | BOPOMOFO_FOURTH_TONE;
+        assert_eq!(convert_phone_to_string(phone), "ㄅㄧㄢˋ");
+
+        let phone = BOPOMOFO_Y | BOPOMOFO_LIGHT_TONE;
+        assert_eq!(convert_phone_to_string(phone), "˙ㄚ");
+    }
 }
