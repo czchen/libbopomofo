@@ -116,7 +116,7 @@ pub fn convert_to_bopomofo(ch: char) -> Option<Bopomofo> {
     }
 }
 
-fn merge_bopomofo_to_phone(phone: Phone, bopomofo: Bopomofo) -> Phone {
+pub fn merge_bopomofo_to_phone(phone: Phone, bopomofo: Bopomofo) -> Phone {
     let mask = match bopomofo {
         Bopomofo::Consonant(_) => BOPOMOFO_CONSONANT_MASK,
         Bopomofo::Medial(_) => BOPOMOFO_MEDIAL_MASK,
@@ -127,23 +127,7 @@ fn merge_bopomofo_to_phone(phone: Phone, bopomofo: Bopomofo) -> Phone {
     phone & !mask | bopomofo.get_phone()
 }
 
-#[test]
-fn test_merge_bopomofo_to_phone() {
-    let phone = BOPOMOFO_P | BOPOMOFO_O | BOPOMOFO_THIRD_TONE;
-
-    assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Consonant(BOPOMOFO_B)),
-        BOPOMOFO_B | BOPOMOFO_O | BOPOMOFO_THIRD_TONE);
-
-    assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Medial(BOPOMOFO_I)),
-        BOPOMOFO_P | BOPOMOFO_I | BOPOMOFO_O | BOPOMOFO_THIRD_TONE);
-
-    assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Rhyme(BOPOMOFO_AN)),
-        BOPOMOFO_P | BOPOMOFO_AN | BOPOMOFO_THIRD_TONE);
-
-    assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Tone(BOPOMOFO_THIRD_TONE)),
-        BOPOMOFO_P | BOPOMOFO_O | BOPOMOFO_THIRD_TONE);
-}
-
+#[cfg(test)]
 mod tests {
     use super::*;
 
@@ -207,5 +191,33 @@ mod tests {
     #[test]
     fn test_convert_to_bopomofo_others() {
         assert_eq!(convert_to_bopomofo('A'), None);
+    }
+
+    #[test]
+    fn test_merge_bopomofo_to_phone_consonant() {
+        let phone = BOPOMOFO_P | BOPOMOFO_O | BOPOMOFO_THIRD_TONE;
+        assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Consonant(BOPOMOFO_B)),
+            BOPOMOFO_B | BOPOMOFO_O | BOPOMOFO_THIRD_TONE);
+    }
+
+    #[test]
+    fn test_merge_bopomofo_to_phone_medial() {
+        let phone = BOPOMOFO_P | BOPOMOFO_O | BOPOMOFO_THIRD_TONE;
+        assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Medial(BOPOMOFO_I)),
+            BOPOMOFO_P | BOPOMOFO_I | BOPOMOFO_O | BOPOMOFO_THIRD_TONE);
+    }
+
+    #[test]
+    fn test_merge_bopomofo_to_phone_rhyme() {
+        let phone = BOPOMOFO_P | BOPOMOFO_O | BOPOMOFO_THIRD_TONE;
+        assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Rhyme(BOPOMOFO_AN)),
+        BOPOMOFO_P | BOPOMOFO_AN | BOPOMOFO_THIRD_TONE);
+    }
+
+    #[test]
+    fn test_merge_bopomofo_to_phone_tone() {
+        let phone = BOPOMOFO_P | BOPOMOFO_O | BOPOMOFO_THIRD_TONE;
+        assert_eq!(merge_bopomofo_to_phone(phone, Bopomofo::Tone(BOPOMOFO_THIRD_TONE)),
+            BOPOMOFO_P | BOPOMOFO_O | BOPOMOFO_THIRD_TONE);
     }
 }
